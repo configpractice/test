@@ -1,0 +1,27 @@
+2. 기능 구현
+- 삭제버튼 (곽유섭
+	ex ) deleteAttachmentfileBydeptno()
+	선택사항 파일 삭제
+
+- DynamicSQL mapper.xml (이종형
+	검색창 만들기
+	Like : 검색 기능 	(부서이름)
+		(loc로 검색 해당 dname)
+	분류(부서번호,부서이름, loc) /// 키워드입력
+		trim (prefix: "and")
+	if test=""
+ 		sql
+	if test=""
+	 	and sql(deptno)
+	if test=""
+		and sql(dname)
+	if test=""
+		and sql(loc)
+
+- signup (이찬영
+insert
+empno(pk) ename job mgr hiredate(sysdate) sal comm deptno
+
+- mainpage 버튼 (임준묵
+오름차순 정렬 	redirect:/main
+		axios
