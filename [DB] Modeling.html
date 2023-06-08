@@ -1,0 +1,685 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>[DB] Modeling</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(55, 53, 47, 1);
+}
+.highlight-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.highlight-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.highlight-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.highlight-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.highlight-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.highlight-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.highlight-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.highlight-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.highlight-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.highlight-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.highlight-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.highlight-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.highlight-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.highlight-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.highlight-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.block-color-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.block-color-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.block-color-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.block-color-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.block-color-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.block-color-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.block-color-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.block-color-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.block-color-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.block-color-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.block-color-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.block-color-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.select-value-color-pink { background-color: rgba(245, 224, 233, 1); }
+.select-value-color-purple { background-color: rgba(232, 222, 238, 1); }
+.select-value-color-green { background-color: rgba(219, 237, 219, 1); }
+.select-value-color-gray { background-color: rgba(227, 226, 224, 1); }
+.select-value-color-opaquegray { background-color: rgba(255, 255, 255, 0.0375); }
+.select-value-color-orange { background-color: rgba(250, 222, 201, 1); }
+.select-value-color-brown { background-color: rgba(238, 224, 218, 1); }
+.select-value-color-red { background-color: rgba(255, 226, 221, 1); }
+.select-value-color-yellow { background-color: rgba(253, 236, 200, 1); }
+.select-value-color-blue { background-color: rgba(211, 229, 239, 1); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="17215a20-474e-4483-a59a-4baea33a5839" class="page sans"><header><h1 class="page-title">[DB] Modeling</h1></header><div class="page-body"><h1 id="ef9dbcda-4c2b-43f1-8c57-5f8726bd95bc" class=""><mark class="highlight-red_background">DB Modeling</mark></h1><p id="57e9e432-efbb-4d13-b815-3c234b55779d" class=""><strong>데이터베이스 설계를 위한 과정</strong></p><p id="1b036dd4-741c-4c6c-94ad-6efbe9977e7e" class="">데이터베이스에 저장될 데이터의 구조, 형식, 관계 등을 결정 </p><p id="6a5e9d7a-3224-415d-b269-e919ba143ad9" class="">데이터베이스의 성능과 안정성을 결정하는 <strong><mark class="highlight-pink">중요한 단계</mark></strong></p><p id="74b752ae-5ae0-4c16-a1fd-ea20236e4f06" class="">
+</p><h2 id="e06e3246-f01f-4022-8d39-e56be8fbd41b" class="block-color-yellow_background"><strong>[DB 모델링 종류]</strong></h2><h3 id="f98f0635-d43b-4b26-82e6-317b5d19c736" class=""><details open=""><summary><strong>개념적 모델링, 논리적 모델링, 물리적 모델링</strong></summary></details></h3><div class="indented"><ul id="d19f69fa-2a7e-4757-98f7-22e948d6e778" class="bulleted-list"><li style="list-style-type:disc"><mark class="highlight-blue_background"><strong>개념적 모델링</strong></mark>은 요구사항을 토대로 필요한 데이터는 무엇인지 등을 추려내는 것<p id="a6e56865-cfb7-44e8-9121-f2df14951911" class="">→ 요구분석 단계에서 정의된 엔티티, 속성,  관계 등을 바탕으로 <strong>ERD를 생성</strong> </p><p id="bbbddb43-d293-4159-8cca-286fb1590431" class="">
+</p></li></ul><ul id="8943026f-2509-4620-9763-621c018a4ffd" class="bulleted-list"><li style="list-style-type:disc"><mark class="highlight-blue_background"><strong>논리적 모델링</strong></mark>은 데이터베이스의 논리적인 구조를 설계하는 것<p id="5a035d75-e7e4-4b54-bbb6-65e1dfb6d4aa" class="">→ 개념 설계에서 추상화된 데이터를 구체화하여 개체, 속성을<strong> 테이블화하고 상세화</strong> </p><p id="58a47cdc-49ea-4e7a-b3c5-7427a969865d" class="">
+</p></li></ul><ul id="ebd56ea2-19e8-458e-8088-094622ee6794" class="bulleted-list"><li style="list-style-type:disc"><mark class="highlight-blue_background"><strong>물리적 모델링</strong></mark>은 논리적 모델을 물리적인 데이터베이스 구조로 변환하는 것<p id="76ba8564-7e06-4583-b968-292c5b326eba" class="">→ 논리적 설계 단계에서 표현된 데이터를 실제 컴퓨터의 저장장치에 표현화</p><p id="e28d1cd1-e213-4171-95d0-5cffea945d7b" class="">
+</p></li></ul></div><p id="a0ec6c38-6144-4e14-be90-aa09891a9e6a" class="">
+</p><h2 id="c523d1e9-770e-41ef-904b-6d27108b4dc4" class="block-color-yellow_background"><strong>[용어]</strong></h2><h3 id="e8299813-8c96-47c0-b515-deb3597bc61f" class=""><details open=""><summary>ERD, 엔티티, 속성, 카디널리티, 식별자, 참여도</summary></details></h3><div class="indented"><ul id="1e223d69-cf04-46e5-9a91-99869a0856dc" class="bulleted-list"><li style="list-style-type:disc"><strong>ERD(Entity-Relationship Diagram)</strong><p id="781fb2ea-826a-4a79-8e99-d5bb9eeec5d8" class="">엔티티와 엔티티 간의 <span style="border-bottom:0.05em solid">관계를 그래픽으로 표현한 다이어그램</span></p><p id="6e3a6a6f-9d87-4dd8-9bc8-aee4388f4a11" class="">데이터베이스의 <strong><span style="border-bottom:0.05em solid">구조와 관계를 쉽게 파악</span></strong> 가능</p><figure id="19eec770-7149-41f2-a780-2a625542ea17"><a href="https://www.diagrams.net/" class="bookmark source"><div class="bookmark-info"><div class="bookmark-text"><div class="bookmark-title">Diagram Software and Flowchart Maker</div></div><div class="bookmark-href"><img src="https://www.diagrams.net/favicon.ico" class="icon bookmark-icon"/>https://www.diagrams.net/</div></div></a></figure><figure id="e70eb588-53a2-488f-9e62-a49b6bb763ca"><a href="https://www.erdcloud.com/" class="bookmark source"><div class="bookmark-info"><div class="bookmark-text"><div class="bookmark-title">ERDCloud</div><div class="bookmark-description">Draw ERD with your team members. All states are shared in real time. And it&#x27;s FREE. Database modeling tool.</div></div><div class="bookmark-href"><img src="https://www.erdcloud.com/android-icon-192x192.png" class="icon bookmark-icon"/>https://www.erdcloud.com/</div></div><img src="https://d2sqqdb3t4xrq5.cloudfront.net/erdcloud.png" class="bookmark-image"/></a></figure><p id="4e15e1d4-e55f-4b80-aa1d-16283f082504" class="">
+</p></li></ul><ul id="49e7225d-1ed2-4918-afad-6187d8e5ff1c" class="bulleted-list"><li style="list-style-type:disc"><strong>엔티티(Entity)</strong><p id="ec6b912f-b92e-4362-9219-d9216a4d496b" class=""><span style="border-bottom:0.05em solid"><strong>업무의 관심 대상이 되는 정보를 갖고 있거나 관리할 필요가 있는 유, 무형의 사물</strong></span>(개체)</p></li></ul><p id="fb0d7c96-1604-48d5-8494-60aa00a7603d" class="">
+</p><ul id="c9c0fc6b-e625-49ee-8f80-5d624cb9bba1" class="bulleted-list"><li style="list-style-type:disc"><strong>속성(Attribute)</strong><p id="60e79446-8279-4da4-920e-50dbceef2f8d" class=""><span style="border-bottom:0.05em solid"><strong>엔티티에서 관리해야 할 최소 단위 정보 항목</strong></span>(관심이 있는 항목)</p><p id="6561a7be-e7be-4a8d-a835-e4948fdeca31" class="">엔티티는 최소 하나 이상의 속성을 포함 (기본, 유도, 설계)</p></li></ul><p id="de35fe6c-5358-454c-a0b4-7c2046f53b35" class="">
+</p><ul id="c52c45b5-015c-40e0-99be-9c336204f2f0" class="bulleted-list"><li style="list-style-type:disc"><strong>속성(Attribute) 명명법</strong><p id="3953a474-2b30-4455-8c0f-803defb8488e" class="">1. 속성의 의미가 분명히 드러나게 작성 (명확)</p><p id="8dc60bcc-2c28-49bf-a224-1be487911f99" class="">2. 해당 업무에서 사용하는 이름</p><p id="7c3a04b6-9fcb-4251-ba85-66d1ed5be08d" class="">3. 서술식(수식어, 소유격) X, 약어 X</p><p id="04928ddf-f793-43a7-897b-a029e002e70d" class="">4. 엔티티에서 유일하게 식별 가능하도록 지정할 것</p></li></ul><p id="b6102193-0c58-41de-966e-efc0a4e588e7" class="">
+</p><ul id="e8b4aca4-0de7-4af4-9abe-81c8c9168d80" class="bulleted-list"><li style="list-style-type:disc"><strong>관계(Relationship)</strong><p id="95fbca7e-e874-462d-aad3-84fdd1e12b22" class="">엔티티 사이의 관련성</p></li></ul><p id="20c6daf0-c9e0-4a57-baa6-95ceed4f580f" class=""><strong></strong></p><figure id="1527dbb1-69a2-46bd-869a-22ceaceefa04" class="image"><a href="https://postfiles.pstatic.net/MjAxOTEyMjZfMTY3/MDAxNTc3MzM5MjM3OTA3.tsmfRjHUQOEjw3onnFsfCMWbPJiTGt7935CLwDl1-pcg.92xtldiF87D6unAmBuFSDlYlLHyisf8xU-1gonHebycg.PNG.dodnam/image.png?type=w966"><img style="width:288px" src="https://postfiles.pstatic.net/MjAxOTEyMjZfMTY3/MDAxNTc3MzM5MjM3OTA3.tsmfRjHUQOEjw3onnFsfCMWbPJiTGt7935CLwDl1-pcg.92xtldiF87D6unAmBuFSDlYlLHyisf8xU-1gonHebycg.PNG.dodnam/image.png?type=w966"/></a></figure><p id="692a5c93-2268-4cce-89a3-24548da05209" class="">
+</p><ul id="8539707d-9484-46cc-b094-1f6232fba644" class="bulleted-list"><li style="list-style-type:disc"><strong>카디널리티(Cardinality)</strong><p id="2b0b1d94-51d0-4615-99af-941b1f749353" class="">각 엔티티에 속해 있는 정보 간 <span style="border-bottom:0.05em solid"><strong>관계를 수적으로 표현</strong></span></p><p id="6500bf77-9ca5-4efc-bde2-50a8b44dd494" class="">종류로는 1:1, 1:N, N:1, M:N</p></li></ul><figure id="a743b77a-fd4d-4bda-89b4-c15c56c70beb" class="image"><a href="https://postfiles.pstatic.net/MjAxOTEyMjZfMTAy/MDAxNTc3MzM5MjQ3NjY4.snzntCzat8euEaQXjY3Ru6datOHQdhin5JZ5QixxmSkg.jGd0ZaPnOWL6yG7uTEqKkx28vbnRiQDswCxBwK5faeQg.PNG.dodnam/image.png?type=w966"><img style="width:336px" src="https://postfiles.pstatic.net/MjAxOTEyMjZfMTAy/MDAxNTc3MzM5MjQ3NjY4.snzntCzat8euEaQXjY3Ru6datOHQdhin5JZ5QixxmSkg.jGd0ZaPnOWL6yG7uTEqKkx28vbnRiQDswCxBwK5faeQg.PNG.dodnam/image.png?type=w966"/></a></figure><p id="f3c619a1-6699-4116-abb6-ff4e179da083" class="">
+</p><ul id="95a1c854-ac96-4a3c-9b9b-2b8b1fe47b48" class="bulleted-list"><li style="list-style-type:disc"><strong>주식별자(Primary Identifier)</strong><p id="15cc0718-afd0-4a85-a151-d9d3182bcac6" class="">엔티티 내 각 인스턴스를 구별하는 기준이 되는 속성</p></li></ul><p id="06904a83-208d-4a4a-b025-63d9278cd54c" class="">
+</p><ul id="86a41cee-9c4e-47e2-bd0a-d1e4581ec076" class="bulleted-list"><li style="list-style-type:disc"><strong>외래식별자(Foreign Identifier)</strong><p id="f0c08037-16e9-45f4-82ec-04d1aa03ec4a" class="">관계가 있는 엔티티 간의 연결고리 역할을 하는 속성. </p></li></ul><p id="5f4cbde8-39d4-43ed-88e5-9151c0a812bb" class="">
+</p><figure id="a1fe16a9-e0d8-4a08-b7e2-46d85dfa07c6" class="image"><a href="https://postfiles.pstatic.net/MjAxOTEyMjZfMjE5/MDAxNTc3MzQwMjQyOTk4.jsOy_Dn-AlWmQJgdzTyu2Fd7iBhOTkzDUkepeZ_v2cEg.W702FWaJEv6BWJDc5WGzXEwE82eEtbhPKRQro4pMBhYg.PNG.dodnam/image.png?type=w966"><img style="width:240px" src="https://postfiles.pstatic.net/MjAxOTEyMjZfMjE5/MDAxNTc3MzQwMjQyOTk4.jsOy_Dn-AlWmQJgdzTyu2Fd7iBhOTkzDUkepeZ_v2cEg.W702FWaJEv6BWJDc5WGzXEwE82eEtbhPKRQro4pMBhYg.PNG.dodnam/image.png?type=w966"/></a></figure><ul id="7dae03fa-c2d1-4680-93d6-22af766c2200" class="bulleted-list"><li style="list-style-type:disc"><strong>참여도</strong><p id="e0649fe2-35f0-4bf4-b106-df21de5d3571" class=""> | 필수 : 반드시 존재</p><p id="3c926b3a-e67d-44ea-b830-332e621e6fb3" class="">O 선택 :  반드시 존재 X</p><p id="432543e0-fa43-41c9-a3af-19ac1c23c46c" class="">
+</p></li></ul><ul id="1ba38b3c-1179-492f-a1da-ce447cf0b578" class="bulleted-list"><li style="list-style-type:disc"><strong>참고</strong><figure id="3b603ac3-2f19-48ec-9a66-6ff16ee9841b"><div class="source"><a href="%5BDB%5D%20Modeling%2017215a20474e4483a59a4baea33a5839/%25ED%2585%258C%25EC%259D%25B4%25EB%25B8%2594%25EC%25A0%2595%25EC%259D%2598%25EC%2584%259C.xlsx">https://s3-us-west-2.amazonaws.com/secure.notion-static.com/465b0544-3c4d-4043-bf3d-0e09add55489/%ED%85%8C%EC%9D%B4%EB%B8%94%EC%A0%95%EC%9D%98%EC%84%9C.xlsx</a></div></figure><p id="b5b39d85-3dc4-4be1-bcaf-0d3ee9ca6e63" class="">
+</p></li></ul></div><p id="1df344d6-1620-4f98-8bc1-917db1074114" class=""><div class="indented"><p id="c7b0b101-a611-4792-8ed6-e696ad595b07" class="">
+</p></div></p></div></article></body></html>
