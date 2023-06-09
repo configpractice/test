@@ -140,13 +140,17 @@ public class DeptController {
 		
 		System.out.println(deptno);
 		
-		boolean result = false;
+		boolean deptResult = false;
+		boolean fileResult = false;
 		
 		try {
 			// deleteDeptByDeptno(int deptno)
-			result = service.deleteDeptByDeptno(deptno);
+			deptResult = service.deleteDeptByDeptno(deptno);
 			
-			if(result) {
+			// deleteAttachmentByDeptno(int deptno)
+			fileResult = fileService.deleteAttachmentByDeptno(deptno);
+			
+			if(deptResult && fileResult) {
 				view = "redirect:/main";
 				return view;
 			}

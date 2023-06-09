@@ -15,5 +15,7 @@ public interface AttachmentFileMapper {
 	int insertAttachmentFile(AttachmentFile attachmentFile) throws SQLException;
 
 	AttachmentFile getAttachmentFileByDeptno(int deptno);
+
+	int deleteAttachmentByDeptno(int deptno) throws SQLException;
 	
 }

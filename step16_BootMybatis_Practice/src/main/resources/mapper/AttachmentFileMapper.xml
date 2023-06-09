@@ -55,4 +55,10 @@
  		WHERE attachment_file_no = #{fileNo}
  	</select>
  	
+ 	<delete id="deleteAttachmentByDeptno" parameterType="_int">
+ 		DELETE
+ 		FROM attachment_file
+ 		WHERE deptno = #{deptno} 
+ 	</delete>
+ 	
  </mapper>

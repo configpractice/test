@@ -22,71 +22,88 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @Service
 public class AttachmentFileService {
-	
+
 	@Autowired
 	AttachmentFileMapper attachmentFileMapper;
-	
+
 	// 객체
-	public AttachmentFile getAttachmentFileByFileNo(int fileNo) throws SQLException, Exception { 
+	public AttachmentFile getAttachmentFileByFileNo(int fileNo) throws SQLException, Exception {
 		AttachmentFile attachmentFile = attachmentFileMapper.getAttachmentFileByFileNo(fileNo);
-		
-		if(attachmentFile == null) {
+
+		if (attachmentFile == null) {
 			throw new Exception("존재하지 않는 파일");
 		}
-		
+
 		return attachmentFile;
 	}
-	
-	// insert - 
+
+	// insert -
 	public boolean insertAttachmentFile(MultipartFile file, int deptno) throws SQLException, Exception {
 		boolean result = false;
-		
-		if(file == null) {
+
+		if (file == null) {
 			throw new Exception("파일 전달 오류 발생");
 		}
-		
-		/* 파일을 저장하는 의미
-		   1. DB 파일 정보 저장 - attFile 객체 생성 -> mapper -> db 저장
-		   2. server에 파일이 실제로 저장  - multipartFile transferTo()
+
+		/*
+		 * 파일을 저장하는 의미 1. DB 파일 정보 저장 - attFile 객체 생성 -> mapper -> db 저장 2. server에 파일이
+		 * 실제로 저장 - multipartFile transferTo()
 		 */
-		
+
 		String filePath = "C:\\multi\\00.spring";
 		String attachmentOriginalFileName = file.getOriginalFilename();
 		UUID uuid = UUID.randomUUID();
 		String attachmentFileName = uuid.toString() + "_" + attachmentOriginalFileName;
 		Long attachmentFileSize = file.getSize();
-		
-		AttachmentFile attachmentFile = AttachmentFile.builder()
-													.attachmentOriginalFileName(attachmentOriginalFileName)
-													.attachmentFileName(attachmentFileName)
-													.attachmentFileSize(attachmentFileSize)
-													.filePath(filePath)
-													.deptno(deptno)
-													.build();
-		
+
+		AttachmentFile attachmentFile = AttachmentFile.builder().attachmentOriginalFileName(attachmentOriginalFileName)
+				.attachmentFileName(attachmentFileName).attachmentFileSize(attachmentFileSize).filePath(filePath)
+				.deptno(deptno).build();
+
 		int res = attachmentFileMapper.insertAttachmentFile(attachmentFile);
-		
-		
-		if(res != 0) {
+
+		if (res != 0) {
 			// 실제 서버에 저장되는 로직 추가!!! (attachmentFile.trasferTo())
-			
+
 			file.transferTo(new File(filePath + "\\" + attachmentFileName));
-			
+
 			result = true;
 		} else {
 			throw new Exception("파일 DB 저장 실패");
 		}
-		
+
 		return result;
 	}
 
 	public AttachmentFile getAttachmentFileByDeptno(int deptno) {
-		
+
 		AttachmentFile attachmentFile = null;
-		
+
 		attachmentFile = attachmentFileMapper.getAttachmentFileByDeptno(deptno);
-		
+
 		return attachmentFile;
 	}
-	
+
+	// delete
+	public boolean deleteAttachmentByDeptno(int deptno) throws SQLException, Exception {
+		boolean result = false;
+		boolean fileresult = false;
+
+		// 출처 : https://seeminglyjs.tistory.com/346
+		AttachmentFile attachmentFile = attachmentFileMapper.getAttachmentFileByDeptno(deptno);
+		File file = new File(attachmentFile.getFilePath() + "\\" + attachmentFile.getAttachmentFileName());
+
+		if (file.exists()) {
+			fileresult = file.delete();
+			int res = attachmentFileMapper.deleteAttachmentByDeptno(deptno);
+			if (res != 0) {
+				result = true;
+			} else {
+				throw new Exception("파일 DB 삭제 실패");
+			}
+		}
+
+		return result;
+	}
+
 }
